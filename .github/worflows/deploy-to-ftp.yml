@@ -3,7 +3,7 @@ name: 🚀 Deploy website on push
 on: 
   push:
     branches:
-      - main
+      - master
   
 jobs:
   web-deploy:
@@ -26,9 +26,9 @@ jobs:
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
-        server: ${{ secrets.FTP_HOST }}
-        username: ${{ secrets.FTP_USER }}
-        password: ${{ secrets.FTP_PWD }}
-        protocol: ${{ secrets.PROTOCOL }}
+        server: ${{ secrets.TRASH_FTP_HOST }}
+        username: ${{ secrets.TRASH_FTP_USER }}
+        password: ${{ secrets.TRASH_FTP_PWD }}
+        protocol: ${{ secrets.TRASH_PROTOCOL }}
         local-dir: ./dist/
         server-dir: /htdocs/
