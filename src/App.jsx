@@ -1,12 +1,33 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  // const [count, setCount] = useState(0)
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [pokemon, setPokemon] = useState(null);
 
 
+
+  const handleClick = async () => {
+    // console.log("c'est cliqué");
+    if (isLoading) return;
+
+    setIsLoading(true);
+
+    const pokemonRandom = Math.round(1008 * Math.random());
+
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonRandom}`)
+
+    const data = await response.json();
+
+    setPokemon(data);
+    setIsLoading(false);
+    // console.log(pokemon);
+  };
   
 
   return (
@@ -19,18 +40,21 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <h1>Random Pokemon</h1>
+
+      {pokemon && 
+      
+      <div>
+        <img src={pokemon.sprites.front_default}/>
+        <p>{pokemon.name}</p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      }
+      
+      <div className="card">
+        <button className={isLoading ? "loading" : undefined} onClick={handleClick}>
+          {!isLoading ? "Random" : <div className="spinner" />}
+        </button>
+      </div>
     </>
   )
 }
